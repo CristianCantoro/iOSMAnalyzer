@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 #title           :All created and edited line
 #description     :This file creates a plot: How many lines have been created or edited per month?

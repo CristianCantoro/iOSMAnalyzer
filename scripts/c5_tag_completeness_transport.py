@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 #description     :This file creates a plot: Calculates the development of the tag-completeness [%] of all "transport" POIs
 #author          :Christopher Barron  @ http://giscience.uni-hd.de/

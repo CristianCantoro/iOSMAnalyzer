@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 #title           :All created and edited polygons
 #description     :This file creates a plot: How many polygons have been created or edited per month?

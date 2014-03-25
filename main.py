@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 #description :This file executes all the files from the script-folder
 #author :Christopher Barron @ http://giscience.uni-hd.de/
@@ -30,9 +30,11 @@ from time import strftime
 import subprocess
 import db_conn_para
 
+import sys
+sys.path.append('/usr/lib/python2.7/dist-packages/mapnik/')
 
 # current date
-current_date = strftime("%Y-%m-%d %H:%M:%S")
+current_date = strftime("%Y-%m-%d_%H_%M_%S")
 
 # create the logfile. Set parameters for logging
 logging.basicConfig(filename='iOSMAnalyzer_' + current_date + '.log',level=logging.DEBUG,format = "%(asctime)s [%(levelname)-8s] %(message)s")
@@ -46,6 +48,11 @@ for x in sorted(os.listdir("scripts")):
   if x.endswith(".py"):
     print str(x)
     
+    if x in ['c3_grid.py']:
+      print 'Skipping script: ', x
+      print
+      continue
+
     logging.debug('###')
     logging.debug('###')
     try:
@@ -55,9 +62,11 @@ for x in sorted(os.listdir("scripts")):
       logging.debug('File: ' + str(x) + ' was executed succesfully')
       print ' ... was executed succesfully'
       print ''
-    except:
+    except Exception as e:
       print ' ... ERROR!' + str(x) + ' was NOT created succesfully'
+      print e.message
       logging.debug('An ERROR occured in script ' + str(x))
+      logging.debug('Script died with error: ' + str(e))
       print ''
       pass
     

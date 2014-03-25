@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 #description     :This file creates a map: Calculates a 1*1 km grid over the map. For each grid the amount of distinct contributers is calculated. Grids <15 contributers are rendered red, grids >=15 are rendered green
 #author          :Christopher Barron @ http://giscience.uni-hd.de/
@@ -9,11 +9,15 @@
 #==============================================================================
 
 import psycopg2
-import mapnik2
+import sys
+sys.path.append("/usr/lib/python2.7/dist-packages/")
+import mapnik
 from optparse import OptionParser
 import sys, os, subprocess
 import cStringIO
-import mapnik2
+import sys
+sys.path.append("/usr/lib/python2.7/dist-packages/")
+import mapnik
 
 # import db connection parameters
 import db_conn_para as db
@@ -282,23 +286,23 @@ create_views(dsn, dbprefix, viewprefix, hstore, columns, date)
 
 
 # Create map with width height
-m = mapnik2.Map(pic_output_width, pic_output_height)
+m = mapnik.Map(pic_output_width, pic_output_height)
 
 # Load osm-xml-stylesheet for rendering the views
 # DB has to have the same name as cmd user
-mapnik2.load_map(m, path_to_osm_xml)
+mapnik.load_map(m, path_to_osm_xml)
 
 # Define projection
-prj = mapnik2.Projection("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over")
+prj = mapnik.Projection("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over")
 
 # Map bounds. Bound values come from SQL-query
-if hasattr(mapnik2, 'Box2d'):
-    bbox = mapnik2.Box2d(xmin,ymin,xmax,ymax)
+if hasattr(mapnik, 'Box2d'):
+    bbox = mapnik.Box2d(xmin,ymin,xmax,ymax)
 else:
-    bbox = mapnik2.Envelope(xmin,ymin,xmax,ymax)
+    bbox = mapnik.Envelope(xmin,ymin,xmax,ymax)
 
 # Project bounds to map projection
-e = mapnik2.forward_(bbox, prj)
+e = mapnik.forward_(bbox, prj)
 
 # Zoom map to bounding box
 m.zoom_to_box(e)
@@ -308,18 +312,18 @@ m.zoom_to_box(e)
 ###
 
 # style object to hold rules
-s = mapnik2.Style() 
-s2 = mapnik2.Style() 
+s = mapnik.Style() 
+s2 = mapnik.Style() 
 
 # rule object to hold symbolizers
-r = mapnik2.Rule() 
-r2 = mapnik2.Rule() 
+r = mapnik.Rule() 
+r2 = mapnik.Rule() 
 
 # Lines (outlines of polygons and/or simple lines. Line-Color (RGB) line-thickness
-polygon_symbolizer = mapnik2.PolygonSymbolizer(mapnik2.Color('#ec0000'))
+polygon_symbolizer = mapnik.PolygonSymbolizer(mapnik.Color('#ec0000'))
 polygon_symbolizer.fill_opacity = 0.5
 
-polygon_symbolizer2 = mapnik2.PolygonSymbolizer(mapnik2.Color('#00d200')) 
+polygon_symbolizer2 = mapnik.PolygonSymbolizer(mapnik.Color('#00d200')) 
 polygon_symbolizer2.fill_opacity = 0.5
 
 # add the polygon_symbolizer to the rule object
@@ -335,13 +339,13 @@ m.append_style('My Style',s)
 m.append_style('My Style2',s2) 
 
 # Projection from PostGIS-Layer-Data
-lyr = mapnik2.Layer('Geometry from PostGIS', '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over')
-lyr2 = mapnik2.Layer('Geometry from PostGIS', '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over')
+lyr = mapnik.Layer('Geometry from PostGIS', '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over')
+lyr2 = mapnik.Layer('Geometry from PostGIS', '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over')
 
 
 # PostGIS-Connection + DB-Query
-lyr.datasource = mapnik2.PostGIS(host=hostname, user=db_user, password=db_pw, dbname=db_name,table=db_query) 
-lyr2.datasource = mapnik2.PostGIS(host=hostname, user=db_user, password=db_pw, dbname=db_name,table=db_query2) 
+lyr.datasource = mapnik.PostGIS(host=hostname, user=db_user, password=db_pw, dbname=db_name,table=db_query) 
+lyr2.datasource = mapnik.PostGIS(host=hostname, user=db_user, password=db_pw, dbname=db_name,table=db_query2) 
 
 # Append Style to layer
 lyr.styles.append('My Style')
@@ -367,23 +371,23 @@ label_x = xmin + ((xmax - xmin) / 2)
 label_y = ymin + ((ymax - ymin) / 30)
 
 # create PointDatasource
-pds = mapnik2.PointDatasource()
+pds = mapnik.PointDatasource()
 
 # place scale at the bottom-center of the map
 pds.add_point(label_x, label_y, 'Name', "Scale: 1:" + str(m.scale_denominator()))
 
 # create label symbolizers
-if mapnik2.mapnik_version() >= 800:
-    text = mapnik2.TextSymbolizer(mapnik2.Expression('[Name]'),'DejaVu Sans Bold',12,mapnik2.Color('black'))
+if mapnik.mapnik_version() >= 800:
+    text = mapnik.TextSymbolizer(mapnik.Expression('[Name]'),'DejaVu Sans Bold',12,mapnik.Color('black'))
 else:
-    text = mapnik2.TextSymbolizer('Name','DejaVu Sans Bold',12,mapnik2.Color('black'))
+    text = mapnik.TextSymbolizer('Name','DejaVu Sans Bold',12,mapnik.Color('black'))
 
-s3 = mapnik2.Style()
-r3 = mapnik2.Rule()
+s3 = mapnik.Style()
+r3 = mapnik.Rule()
 r3.symbols.append(text)
 s3.rules.append(r3)
 
-lyr3 = mapnik2.Layer('Memory Datasource')
+lyr3 = mapnik.Layer('Memory Datasource')
 lyr3.datasource = pds
 lyr3.styles.append('Style')
 m.layers.append(lyr3)
@@ -394,6 +398,6 @@ m.append_style('Style',s3)
 ###
 
 # Render Mapnik-map to png-file
-mapnik2.render_to_file(m, pic_output_name, pic_output_format)
+mapnik.render_to_file(m, pic_output_name, pic_output_format)
 
 del m

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 #description     :This file creates a database view containing all points, lines and polygons
 #		  This is necessary for querying the whole database

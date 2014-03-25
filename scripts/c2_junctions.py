@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 #description     :This file creates a plot: Calculate the distance and angle between all identical junctions 
 #		from tho timestamps (timestamp and 31.12.2010)

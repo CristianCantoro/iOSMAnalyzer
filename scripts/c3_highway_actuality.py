@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 #description     :This file creates a plot: Calculates the actuality of the total OSM highway. Additionally plots the first version for comparison purposes
 #author          :Christopher Barron @ http://giscience.uni-hd.de/

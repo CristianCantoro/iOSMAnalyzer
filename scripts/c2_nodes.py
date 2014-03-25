@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 #title           :All points
 #description     :This file creates a plot: Total number of nodes per month

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 #description     :This file creates a plot: Calculates the total amount and percentage of node-contributions by each contributer. Results are grouped by three mappertypes: ""Senior-Mappers", "Junior-Mappers" and "Nonrecurring-Mappers"
 #author          :Christopher Barron  @ http://giscience.uni-hd.de/

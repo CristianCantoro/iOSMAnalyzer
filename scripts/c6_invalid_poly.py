@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 #description     :This file creates a plot: Calculates the development of invalid polygons (total amount and percentage)
 #author          :Christopher Barron  @ http://giscience.uni-hd.de/

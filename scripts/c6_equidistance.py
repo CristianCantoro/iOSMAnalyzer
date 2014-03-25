@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 #description     :This file creates a plot: Calculates the development of the equidistance between version 1 an the currently valid version of a polygon with a "natural" or "landuse"-tag
 #author          :Christopher Barron  @ http://giscience.uni-hd.de/

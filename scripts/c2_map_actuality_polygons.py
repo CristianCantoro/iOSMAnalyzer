@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 #description     :This file creates a map: Actuality of all polygons
 #author          :Christopher Barron @ http://giscience.uni-hd.de/
@@ -8,7 +8,9 @@
 #usage           :python pyscript.py
 #==============================================================================
 
-import mapnik2
+import sys
+sys.path.append("/usr/lib/python2.7/dist-packages/")
+import mapnik
 
 # import db connection parameters
 import db_conn_para as db
@@ -34,30 +36,30 @@ pic_output_format = 'jpeg'
 # create a map with a given width and height in pixels
 # note: m.srs will default to '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
 # the 'map.srs' is the target projection of the map and can be whatever you wish
-m = mapnik2.Map(pic_output_width,pic_output_height) 
+m = mapnik.Map(pic_output_width,pic_output_height) 
 
 # Background color of the data
-m.background = mapnik2.Color('White') # set background colour to. List of RGB-Colors: http://gucky.uni-muenster.de/cgi-bin/rgbtab
+m.background = mapnik.Color('White') # set background colour to. List of RGB-Colors: http://gucky.uni-muenster.de/cgi-bin/rgbtab
 
 # style object to hold rules
-s = mapnik2.Style() 
-s2 = mapnik2.Style() 
-s3 = mapnik2.Style() 
-s4 = mapnik2.Style() 
+s = mapnik.Style() 
+s2 = mapnik.Style() 
+s3 = mapnik.Style() 
+s4 = mapnik.Style() 
 
 # rule object to hold symbolizers
-r = mapnik2.Rule() 
-r2 = mapnik2.Rule() 
-r3 = mapnik2.Rule() 
-r4 = mapnik2.Rule() 
+r = mapnik.Rule() 
+r2 = mapnik.Rule() 
+r3 = mapnik.Rule() 
+r4 = mapnik.Rule() 
 
 ###
 ### Color of the lines
 ###
-polygon_symbolizer = mapnik2.PolygonSymbolizer(mapnik2.Color('#00d200'))	# green
-polygon_symbolizer2 = mapnik2.PolygonSymbolizer(mapnik2.Color('#eaea00'))	# yellow
-polygon_symbolizer3 = mapnik2.PolygonSymbolizer(mapnik2.Color('#ff7f24'))	# orange
-polygon_symbolizer4 = mapnik2.PolygonSymbolizer(mapnik2.Color('#ec0000'))	# red
+polygon_symbolizer = mapnik.PolygonSymbolizer(mapnik.Color('#00d200'))	# green
+polygon_symbolizer2 = mapnik.PolygonSymbolizer(mapnik.Color('#eaea00'))	# yellow
+polygon_symbolizer3 = mapnik.PolygonSymbolizer(mapnik.Color('#ff7f24'))	# orange
+polygon_symbolizer4 = mapnik.PolygonSymbolizer(mapnik.Color('#ec0000'))	# red
 
 # fill-opacity
 polygon_symbolizer.fill_opacity = 0.7
@@ -86,7 +88,7 @@ m.append_style('My Style4',s4)
 ###
 ### START Layer 1
 ###
-lyr = mapnik2.Layer('Geometry from PostGIS')
+lyr = mapnik.Layer('Geometry from PostGIS')
 # note: layer.srs will default to '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
 
 # database-query for overlay-data
@@ -113,7 +115,7 @@ WHERE
 	--age > 730 -- older than 2 years
 ) AS foo'''
 
-lyr.datasource = mapnik2.PostGIS(host=hostname,user=db_user,password=db_pw,dbname=db_name,table=db_query)
+lyr.datasource = mapnik.PostGIS(host=hostname,user=db_user,password=db_pw,dbname=db_name,table=db_query)
 
 # Append Style to layer
 lyr.styles.append('My Style')
@@ -126,7 +128,7 @@ lyr.styles.append('My Style')
 ### START Layer 2
 ###
 
-lyr_2 = mapnik2.Layer('Geometry from PostGIS')
+lyr_2 = mapnik.Layer('Geometry from PostGIS')
 # note: layer.srs will default to '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
 
 # database-query for overlay-data
@@ -154,7 +156,7 @@ WHERE
 ) AS foo'''
 
 
-lyr_2.datasource = mapnik2.PostGIS(host=hostname,user=db_user,password=db_pw,dbname=db_name,table=db_query2)
+lyr_2.datasource = mapnik.PostGIS(host=hostname,user=db_user,password=db_pw,dbname=db_name,table=db_query2)
 
 # Append Style to layer
 lyr_2.styles.append('My Style2')
@@ -167,7 +169,7 @@ lyr_2.styles.append('My Style2')
 ### START Layer 3
 ###
 
-lyr_3 = mapnik2.Layer('Geometry from PostGIS')
+lyr_3 = mapnik.Layer('Geometry from PostGIS')
 # note: layer.srs will default to '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
 
 # database-query for overlay-data
@@ -195,7 +197,7 @@ WHERE
 ) AS foo'''
 
 
-lyr_3.datasource = mapnik2.PostGIS(host=hostname,user=db_user,password=db_pw,dbname=db_name,table=db_query3)
+lyr_3.datasource = mapnik.PostGIS(host=hostname,user=db_user,password=db_pw,dbname=db_name,table=db_query3)
 
 # Append Style to layer
 lyr_3.styles.append('My Style3')
@@ -210,7 +212,7 @@ lyr_3.styles.append('My Style3')
 ### START Layer 4
 ###
 
-lyr_4 = mapnik2.Layer('Geometry from PostGIS')
+lyr_4 = mapnik.Layer('Geometry from PostGIS')
 # note: layer.srs will default to '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
 
 # database-query for overlay-data
@@ -238,7 +240,7 @@ WHERE
 ) AS foo'''
 
 
-lyr_4.datasource = mapnik2.PostGIS(host=hostname,user=db_user,password=db_pw,dbname=db_name,table=db_query4)
+lyr_4.datasource = mapnik.PostGIS(host=hostname,user=db_user,password=db_pw,dbname=db_name,table=db_query4)
 
 # Append Style to layer
 lyr_4.styles.append('My Style4')
@@ -259,6 +261,6 @@ m.layers.append(lyr_4)
 m.zoom_all()
 
 # Write the map with its overlays to a png image 
-mapnik2.render_to_file(m,pic_output_name, pic_output_format)
+mapnik.render_to_file(m,pic_output_name, pic_output_format)
 
 del m

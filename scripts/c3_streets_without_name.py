@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 #description     :This file creates a plot: Calculates the length [km] of all streets without a name. Results are grouped by street category
 #author          :Christopher Barron @ http://giscience.uni-hd.de/
